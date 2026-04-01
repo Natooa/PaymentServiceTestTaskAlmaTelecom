@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: almatestdb
+      POSTGRES_USER: alma
+      POSTGRES_PASSWORD: alma
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/almatestdb
+      SPRING_DATASOURCE_USERNAME: alma
+      SPRING_DATASOURCE_PASSWORD: alma
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
