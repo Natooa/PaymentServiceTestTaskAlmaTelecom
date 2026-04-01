@@ -1,75 +1,165 @@
-PaymentServiceTestTaskAlmaTelecom
+# 💳 Payment Service — Тестовое задание Alma Telecom
 
-Выполнил тестовое задание: Сейтнуров Нурдияр
-Тестовое задание от компании Alma Telecommunications
+> **Выполнил:** Сейтнуров Нурдияр  
+> **Компания:** Alma Telecommunications
 
-Технологии
-Java 21
-Spring Boot 4.0.5
-Spring Data JPA
-PostgreSQL 17
-Docker & Docker Compose
-MapStruct
-Lombok
-Spring Validation
-Springdoc OpenAPI (Swagger)
+---
 
-Запуск проекта
-(НИЧЕГО НАСТРАИВАТЬ НЕ НАДО! просто скачиваете проект к себе и прописываете "docker compose up --build" ИЛИ "docker-compose up --build")
-1. Запуск через Docker Compose
+## 🛠 Технологический стек
 
-Построить Docker образы и запустить сервис:
+| Технология | Версия |
+|---|---|
+| Java | 21 |
+| Spring Boot | 4.0.5 |
+| Spring Data JPA | — |
+| PostgreSQL | 17 |
+| Docker & Docker Compose | — |
+| MapStruct | — |
+| Lombok | — |
+| Spring Validation | — |
+| Springdoc OpenAPI (Swagger) | — |
 
+---
+
+## 🚀 Быстрый старт
+
+> ⚡ **Никакой дополнительной настройки не требуется!**  
+> Просто скачайте проект и выполните одну команду.
+
+```bash
+docker compose up --build
+```
+
+или (для старых версий Docker):
+
+```bash
 docker-compose up --build
-Контейнеры:
-db: PostgreSQL 17, порт 5432
-app: Spring Boot сервис, порт 8080
-Переменные окружения (для Docker Compose):
-SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/almatestdb
-SPRING_DATASOURCE_USERNAME: alma
-SPRING_DATASOURCE_PASSWORD: alma
-SPRING_JPA_HIBERNATE_DDL_AUTO: update
-🗂 API
+```
 
-Все эндпоинты доступны на http://localhost:8080/api.
+### Запущенные контейнеры
 
-Клиенты
-Метод	URL	Описание
-POST	/clients	Создать клиента
-GET	/clients/{clientId}	Получить клиента по ID
-GET	/clients/{clientId}/payments	Получить все платежи клиента
-Пример запроса создания клиента
+| Контейнер | Описание | Порт |
+|---|---|---|
+| `db` | PostgreSQL 17 | `5432` |
+| `app` | Spring Boot сервис | `8080` |
+
+### Переменные окружения (Docker Compose)
+
+| Переменная | Значение |
+|---|---|
+| `SPRING_DATASOURCE_URL` | `jdbc:postgresql://db:5432/almatestdb` |
+| `SPRING_DATASOURCE_USERNAME` | `alma` |
+| `SPRING_DATASOURCE_PASSWORD` | `alma` |
+| `SPRING_JPA_HIBERNATE_DDL_AUTO` | `update` |
+
+---
+
+## 🗂 API
+
+Все эндпоинты доступны по базовому адресу: **`http://localhost:8080/api`**
+
+### 👤 Клиенты
+
+| Метод | URL | Описание |
+|---|---|---|
+| `POST` | `/clients` | Создать клиента |
+| `GET` | `/clients/{clientId}` | Получить клиента по ID |
+| `GET` | `/clients/{clientId}/payments` | Получить все платежи клиента |
+
+**Создание клиента:**
+```http
 POST /api/clients
+Content-Type: application/json
+
 {
     "name": "John Doe"
 }
-Платежи
-Метод	URL	Описание
-POST	/payments	Создать платеж
-GET	/payments/{paymentId}	Получить платеж с клиентом
-POST	/payments/{paymentId}/confirm	Подтвердить платеж
-POST	/payments/{paymentId}/cancel	Отменить платеж
-Пример создания платежа
+```
+
+---
+
+### 💰 Платежи
+
+| Метод | URL | Описание |
+|---|---|---|
+| `POST` | `/payments` | Создать платёж |
+| `GET` | `/payments/{paymentId}` | Получить платёж с данными клиента |
+| `POST` | `/payments/{paymentId}/confirm` | Подтвердить платёж |
+| `POST` | `/payments/{paymentId}/cancel` | Отменить платёж |
+
+**Создание платежа:**
+```http
 POST /api/payments
+Content-Type: application/json
+
 {
     "amount": 1000,
     "currency": "KZT",
     "description": "Payment for service",
     "clientId": 1
 }
-Пример подтверждения платежа
+```
+
+**Подтверждение платежа:**
+```http
 POST /api/payments/1/confirm
-Пример отмены платежа
+```
+
+**Отмена платежа:**
+```http
 POST /api/payments/1/cancel
-Пример получения платежей клиента
+```
+
+**Получение платежей клиента:**
+```http
 GET /api/clients/1/payments
-⚡ Swagger
+```
 
-После запуска сервиса Swagger UI доступен по адресу:
+---
 
-[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui/index.html)
-📦 Dockerfile
-Сборка через Maven:
+## 📊 Статусы платежей
+
+```
+PENDING    → Ожидает обработки
+CONFIRMED  → Подтверждён
+CANCELED   → Отменён
+```
+
+Переход статусов:
+
+```
+PENDING ──→ CONFIRMED
+PENDING ──→ CANCELED
+```
+
+> ⚠️ Повторно подтвердить или отменить уже обработанный платёж **нельзя** — будет выброшено исключение `PaymentAlreadyProcessedException`.
+
+---
+
+## ⚠️ Обработка исключений
+
+| Исключение | Описание | HTTP-статус |
+|---|---|---|
+| `ClientNotFoundException` | Клиент не найден | `404` |
+| `PaymentNotFoundException` | Платёж не найден | `404` |
+| `PaymentAlreadyProcessedException` | Платёж уже подтверждён или отменён | `409` |
+| Все остальные исключения | Внутренняя ошибка сервера | `500` |
+
+---
+
+## ⚡ Swagger UI
+
+После запуска сервиса документация API доступна по адресу:
+
+👉 **[http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)**
+
+---
+
+## 🐳 Dockerfile
+
+Многоэтапная сборка через Maven:
+
+```dockerfile
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY pom.xml .
@@ -81,19 +171,37 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
-📌 Важные моменты
-Статусы платежей:
-PENDING — ожидает обработки
-CONFIRMED — подтвержден
-CANCELED — отменен
-Исключения:
-ClientNotFoundException — клиент не найден
-PaymentNotFoundException — платеж не найден
-PaymentAlreadyProcessedException — платеж уже подтвержден или отменен
-Все остальные исключения ловятся с кодом 500
+```
 
-Postman коллекция
-Импортируй AlmaTestPaymentService.postman_collection.json для тестирования всех эндпоинтов с примерами запросов.
+---
 
-<img width="1024" height="1536" alt="Payment service API documentation" src="https://github.com/user-attachments/assets/25f0f399-42f2-4dc2-b352-1e8ef949f18c" />
+## 📬 Postman коллекция
 
+Для удобного тестирования всех эндпоинтов импортируйте готовую коллекцию:
+
+```
+AlmaTestPaymentService.postman_collection.json
+```
+
+Коллекция содержит примеры запросов для всех операций с клиентами и платежами.
+
+---
+
+## 📁 Структура проекта
+
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── ...
+│   │       ├── controller/     # REST контроллеры
+│   │       ├── service/        # Бизнес-логика
+│   │       ├── repository/     # JPA репозитории
+│   │       ├── dto/            # DTO классы (MapStruct)
+│   │       ├── model/          # JPA сущности
+│   │       └── exception/      # Кастомные исключения
+│   └── resources/
+│       └── application.yml
+docker-compose.yml
+Dockerfile
+```
