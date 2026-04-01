@@ -4,7 +4,7 @@ import kz.natooa.paymentservice.common.exception.ClientNotFoundException;
 import kz.natooa.paymentservice.payment.dto.ClientPaymentsResponseDto;
 import kz.natooa.paymentservice.payment.dto.PaymentMapper;
 import kz.natooa.paymentservice.payment.entity.Payment;
-import kz.natooa.paymentservice.payment.service.PaymentRepository;
+import kz.natooa.paymentservice.payment.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

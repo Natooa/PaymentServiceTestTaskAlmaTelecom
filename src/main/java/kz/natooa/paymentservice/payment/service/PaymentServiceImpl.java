@@ -7,6 +7,7 @@ import kz.natooa.paymentservice.common.exception.PaymentNotFoundException;
 import kz.natooa.paymentservice.payment.dto.*;
 import kz.natooa.paymentservice.payment.entity.Payment;
 import kz.natooa.paymentservice.payment.entity.PaymentStatus;
+import kz.natooa.paymentservice.payment.repository.PaymentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

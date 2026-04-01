@@ -1,4 +1,4 @@
-package kz.natooa.paymentservice.payment.service;
+package kz.natooa.paymentservice.payment.repository;
 
 import kz.natooa.paymentservice.payment.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;
