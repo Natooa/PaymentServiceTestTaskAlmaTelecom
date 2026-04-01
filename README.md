@@ -194,14 +194,19 @@ src/
 ├── main/
 │   ├── java/
 │   │   └── ...
-│   │       ├── controller/     # REST контроллеры
-│   │       ├── service/        # Бизнес-логика
-│   │       ├── repository/     # JPA репозитории
-│   │       ├── dto/            # DTO классы (MapStruct)
-│   │       ├── model/          # JPA сущности
-│   │       └── exception/      # Кастомные исключения
+│   │       ├── client/     # Client все что связанно с ними
+│   │       ├── common/        # основные классы (Exceptions)
+│   │       │   ├── dto        # DTO классы 
+│   │       │   └── exception    # Кастомные исключения
+│   │       └── payment/     # Payment все что связанно с ними
+│   │           ├── controller     # REST контроллеры
+│   │           ├── dto        # DTO классы (MapStruct)
+│   │           ├── entity     # JPA сущности
+│   │           ├── service    # Бизнес-логика
+│   │           └── repository    # JPA репозитории
 │   └── resources/
 │       └── application.yml
 docker-compose.yml
 Dockerfile
+pom.xml
 ```
