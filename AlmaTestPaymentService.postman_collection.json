@@ -1,0 +1,162 @@
+{
+	"info": {
+		"_postman_id": "b3935b97-ead1-450a-be63-73cdb5a7d2ab",
+		"name": "AlmaTestPaymentService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48701639"
+	},
+	"item": [
+		{
+			"name": "CreateClient",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"your name\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/clients",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreatePayment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 1000,\n    \"currency\": \"you currency from ENUM\",\n    \"description\": \"your description\",\n    \"clientId\": {your client id}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetStatusOfPayment",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"amount\": 1000,\n    \"currency\": \"KZT\",\n    \"description\": \"hello first\",\n    \"clientId\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/payments/{paymentId}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"payments",
+						"{paymentId}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ConfirmPayment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/payments/{paymentId}/confirm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"payments",
+						"{paymentId}",
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CancelPayment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/payments/{paymentId}/cancel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"payments",
+						"{paymentId}",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllPaymenByClientId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/clients/{clientId}/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"clients",
+						"{clientId}",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
