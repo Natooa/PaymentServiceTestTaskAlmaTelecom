@@ -142,7 +142,7 @@ PENDING ──→ CANCELED
 |---|---|---|
 | `ClientNotFoundException` | Клиент не найден | `404` |
 | `PaymentNotFoundException` | Платёж не найден | `404` |
-| `PaymentAlreadyProcessedException` | Платёж уже подтверждён или отменён | `409` |
+| `PaymentAlreadyProcessedException` | Платёж уже подтверждён или отменён | `400` |
 | Все остальные исключения | Внутренняя ошибка сервера | `500` |
 
 ---
